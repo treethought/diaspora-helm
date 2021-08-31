@@ -41,6 +41,11 @@ spec:
             - name: config
               mountPath: "/home/diaspora/diaspora/config/diaspora.yml"
               readOnly: true
+              subPath: "diaspora.yml"
+            - name: config
+              mountPath: "/home/diaspora/diaspora/config/database.yml"
+              readOnly: true
+              subPath: "database.yml"
           livenessProbe:
             httpGet:
               path: /
@@ -75,5 +80,12 @@ spec:
             # An array of keys from the ConfigMap to create as files
             items:
               - key: "diaspora.yml"
-                path: "config/diaspora.yaml"
-
+                path: "diaspora.yml"
+        - name: database
+          configMap:
+            # Provide the name of the ConfigMap you want to mount.
+            name: {{ template "diaspora.fullname" . }}-database
+            # An array of keys from the ConfigMap to create as files
+            items:
+              - key: "database.yml"
+                path: "database.yml"
