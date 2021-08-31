@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "diaspora.fullname" . }}-config
+  labels:
+    app.kubernetes.io/name: {{ include "diaspora.name" . }}
+    helm.sh/chart: {{ include "diaspora.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+data:
+  diaspora.yml: |
+{{- toYaml .Values.diaspora.configuration | nindent 4 }}
+
+  database.yml: |
+
+    postgresql: &postgresql
+      adapter: postgresql
+      host: {{ (include "postgresql.dns" .) }}
+      port: {{ .Values.postgresql.global.postgresql.servicePort }}
+      username: {{ .Values.postgresql.postgresqlUsername | quote }}
+      password: {{ .Values.postgresql.postgresqlPassword | quote }}
+      encoding: unicode
+
+    mysql: &mysql
+      adapter: mysql2
+      host: {{ (include "mysql.dns" .) }}
+      port: {{ .Values.mysql.servicePort }}
+      username: {{ .Values.mysql.username | quote }}
+      password: {{ .Values.mysql.password | quote }}
+      #  socket: /tmp/mysql.sock
+      encoding: utf8mb4
+      collation: utf8mb4_bin
+
+
+    # Comment the postgresql line and uncomment the mysql line
+    # if you want to use mysql
+    common: &common
+      # Choose one of the following
+      {{if .Values.diaspora.database.postgresql.enabled}}
+      <<: *postgresql
+      {{ end }}
+      {{if .Values.diaspora.database.mysql.enabled}}
+      <<: *mysql
+      {{ end }}
+
+      # Should match environment.sidekiq.concurrency
+      #pool: 25
+
+    ##################################################
+    #### CONFIGURE ABOVE #############################
+    ##################################################
+
+    # Normally you don't need to touch anything here
+
+    combined: &combined
+      <<: *common
+    development:
+      <<: *combined
+      database: diaspora_development
+    production:
+      <<: *combined
+      database: diaspora_production
+    test:
+      <<: *combined
+      database: "diaspora_test"
+    integration1:
+      <<: *combined
+      database: diaspora_integration1
+    integration2:
+      <<: *combined
+      database: diaspora_integration2
