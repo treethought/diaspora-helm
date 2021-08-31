@@ -106,6 +106,10 @@ mysql:
   persistence:
     size: 10Gi
 
+redis:
+  enabled: true
+  usePassword: false
+  password: 'changeme'
 
 diaspora:
 
@@ -153,7 +157,7 @@ diaspora:
         ## you're not using SSL. Also there is no guarantee that posting to
         ## services will be possible if SSL is disabled.
         ## Do not change this default unless you are sure!
-        require_ssl: false
+        require_ssl: true
 
         ## Single-process mode (default=false).
         ## If set to true, Diaspora will work with just the appserver (Unicorn by
@@ -279,7 +283,7 @@ diaspora:
         ## Rails environment (default='development').
         ## The environment in which the server should be started by default.
         ## Change this to 'production' if you wish to run a production environment.
-        rails_environment: 'development'
+        rails_environment: 'production'
 
         ## Write unicorn stderr and stdout log.
         #stderr_log: '/usr/local/app/diaspora/log/unicorn-stderr.log'
@@ -816,7 +820,7 @@ diaspora:
     ## to have them different in different environments.
     production: ## Section
       environment: ## Section
-        #redis: 'redis://production.example.org:6379'
+        redis: 'redis://diaspora-redis-master.diaspora.svc.cluster.local:6379'
 
     development: ## Section
       environment: ## Section

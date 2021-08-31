@@ -32,3 +32,7 @@ dependencies:
   repository: https://charts.bitnami.com/bitnami
   version: 10.3.17
   condition: diaspora.database.postgresql.enabled
+- name: redis
+  version: 13.0.*
+  repository: https://charts.bitnami.com/bitnami
+  condition: redis.enabled
