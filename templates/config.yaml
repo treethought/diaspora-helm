@@ -25,10 +25,9 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   database.yml: |
-
     postgresql: &postgresql
       adapter: postgresql
-      host: {{ (include "postgresql.dns" .) }}
+      host: {{ (include "postgresql.host" .) }}
       port: {{ .Values.postgresql.global.postgresql.servicePort }}
       username: {{ .Values.postgresql.global.postgresql.postgresqlUsername | quote }}
       password: {{ .Values.postgresql.global.postgresql.postgresqlPassword | quote }}
@@ -36,7 +35,7 @@ data:
 
     mysql: &mysql
       adapter: mysql2
-      host: {{ (include "mysql.dns" .) }}
+      host: {{ (include "mysql.host" .) }}
       port: {{ .Values.mysql.servicePort }}
       username: {{ .Values.mysql.db.user | quote }}
       password: {{ .Values.mysql.db.password | quote }}
