@@ -42,7 +42,7 @@ spec:
               mountPath: "/home/diaspora/diaspora/config/diaspora.yml"
               readOnly: true
               subPath: "diaspora.yml"
-            - name: config
+            - name: database
               mountPath: "/home/diaspora/diaspora/config/database.yml"
               readOnly: true
               subPath: "database.yml"
