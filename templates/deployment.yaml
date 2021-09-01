@@ -48,12 +48,16 @@ spec:
               subPath: "database.yml"
           livenessProbe:
             httpGet:
-              path: /
+              path: /statistics
               port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
           readinessProbe:
             httpGet:
-              path: /
+              path: /statistics
               port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
