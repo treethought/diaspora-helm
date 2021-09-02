@@ -31,31 +31,31 @@ data:
         single_process_mode: {{ .Values.diaspora.configuration.environment.single_process_mode }}
 
         ## Sidekiq - background processing
-        sidekiq: |
+        sidekiq:
 {{- toYaml .Values.diaspora.configuration.environment.sidekiq | nindent 10 }}
 
-        s3: |
+        s3:
 {{- toYaml .Values.diaspora.configuration.environment.s3 | nindent 10 }}
 
-        assets: |
+        assets:
 {{- toYaml .Values.diaspora.configuration.environment.assets | nindent 10 }}
 
         #pubsub_server: {{ .Values.diaspora.configuration.environment.pubsub_server }}
 
         ## Logger configuration
-        logging: |
+        logging:
 {{- toYaml .Values.diaspora.configuration.environment.logging | nindent 10 }}
 
       ## Settings affecting how ./script/server behaves.
       server: 
         listen: {{ printf "0.0.0.0:%g" .Values.service.port }}
 
-        #pid: 'tmp/pids/web.pid'
+        pid: 'tmp/pids/web.pid'
 
         rails_environment: {{ .Values.diaspora.configuration.server.rails_environment }}
 
-        stderr_log: {{ .Values.diaspora.configuration.server.stderr_log }}
-        stdout_log: {{ .Values.diaspora.configuration.server.stdout_log }}
+        # stderr_log: {{ .Values.diaspora.configuration.server.stderr_log }}
+        # stdout_log: {{ .Values.diaspora.configuration.server.stdout_log }}
 
         unicorn_worker: {{ .Values.diaspora.configuration.server.unicorn_worker }}
 
@@ -65,30 +65,30 @@ data:
 
         sidekiq_workers: {{ .Values.diaspora.configuration.server.sidekiq_workers }}
 
-      chat: |
+      chat:
 {{- toYaml .Values.diaspora.configuration.chat | nindent 8 }}
 
-      map: |
+      map:
 {{- toYaml .Values.diaspora.configuration.map | nindent 8 }}
 
-      privacy: |
+      privacy:
 {{- toYaml .Values.diaspora.configuration.privacy | nindent 8 }}
 
-      settings: |
+      settings:
 {{- toYaml .Values.diaspora.configuration.settings | nindent 8 }}
 
-      services: |
+      services:
 {{- toYaml .Values.diaspora.configuration.services | nindent 8 }}
 
-      mail: |
+      mail:
 {{- toYaml .Values.diaspora.configuration.mail | nindent 8 }}
 
-      admins: |
+      admins:
 {{- toYaml .Values.diaspora.configuration.admins | nindent 8 }}
 
-    production: |
+    production:
 {{- toYaml .Values.diaspora.production | nindent 6 }}
-    development: |
+    development:
 {{- toYaml .Values.diaspora.development | nindent 6 }}
 ---
 

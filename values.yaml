@@ -265,17 +265,17 @@ diaspora:
       listen: '0.0.0.0:3000'
 
       # -- Set the path for the PID file of the unicorn master process 
-      pid: 'tmp/pids/web.pid'
+      #pid: ''
 
       #  Rails environment 
       # -- The environment in which the server should be started by default.
       # Change this to 'production' if you wish to run a production environment.
       rails_environment: 'production'
 
-      # -- Write unicorn stderr log.
-      stderr_log: '/usr/local/app/diaspora/log/unicorn-stderr.log'
-      # -- Write unicorn stdout log.
-      stdout_log: '/usr/local/app/diaspora/log/unicorn-stdout.log'
+      #  Write unicorn stderr log.
+      # stderr_log: '/usr/local/app/diaspora/log/unicorn-stderr.log'
+      # #  Write unicorn stdout log.
+      # stdout_log: '/usr/local/app/diaspora/log/unicorn-stdout.log'
 
       # -- Number of Unicorn worker processes 
       # Increase this if you have many users.
