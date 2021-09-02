@@ -76,14 +76,28 @@ spec:
             httpGet:
               path: /statistics
               port: http
-            initialDelaySeconds: 60
-            periodSeconds: 10
+              httpHeaders:
+              - name: Host
+                value: {{ required "diaspora.host value is required " .Values.diaspora.host }}
+
           readinessProbe:
             httpGet:
               path: /statistics
               port: http
-            initialDelaySeconds: 60
+              httpHeaders:
+              - name: Host
+                value: {{ required "diaspora.host value is required " .Values.diaspora.host }}
+
+          startupProbe:
+            httpGet:
+              path: /statistics
+              port: http
+              httpHeaders:
+              - name: Host
+                value: {{ required "diaspora.host value is required" .Values.diaspora.host }}
+            failureThreshold: 30
             periodSeconds: 10
+
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 
