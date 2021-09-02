@@ -10,8 +10,86 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
   diaspora.yml: |
-{{- toYaml .Values.diaspora.config | nindent 4 }}
+    configuration:
+      environment: 
+        {{- if .Values.diaspora.config.configuration.environment.url }}
+        url: {{ .Values.diaspora.config.configuration.environment.url }}
+        {{- else }}
+        url: {{ include "diaspora.hostURL" . }}
+        {{ end}}
 
+        certificate_authorities: '/etc/ssl/certs/ca-certificates.crt'
+
+        {{- if .Values.diaspora.config.configuration.environment.redis }}
+        redis: {{ .Values.diaspora.config.configuration.environment.redis }}
+        {{- else }}
+        redis: {{ include "diaspora.redisUrl" . }}
+        {{ end}}
+
+        require_ssl: {{ .Values.diaspora.config.configuration.environment.require_ssl }}
+
+        single_process_mode: {{ .Values.diaspora.config.configuration.environment.single_process_mode }}
+
+        ## Sidekiq - background processing
+        sidekiq: |
+{{- toYaml .Values.diaspora.config.configuration.environment.sidekiq | nindent 10 }}
+
+        s3: |
+{{- toYaml .Values.diaspora.config.configuration.environment.s3 | nindent 10 }}
+
+        assets: |
+{{- toYaml .Values.diaspora.config.configuration.environment.assets | nindent 10 }}
+
+        #pubsub_server: {{ .Values.diaspora.config.configuration.environment.pubsub_server }}
+
+        ## Logger configuration
+        logging: |
+{{- toYaml .Values.diaspora.config.configuration.environment.logging | nindent 10 }}
+
+      ## Settings affecting how ./script/server behaves.
+      server: 
+        listen: {{ printf "0.0.0.0:%g" .Values.service.port }}
+
+        #pid: 'tmp/pids/web.pid'
+
+        rails_environment: {{ .Values.diaspora.config.configuration.server.rails_environment }}
+
+        stderr_log: {{ .Values.diaspora.config.configuration.server.stderr_log }}
+        stdout_log: {{ .Values.diaspora.config.configuration.server.stdout_log }}
+
+        unicorn_worker: {{ .Values.diaspora.config.configuration.server.unicorn_worker }}
+
+        unicorn_timeout: {{ .Values.diaspora.config.configuration.server.unicorn_timeout }}
+
+        embed_sidekiq_worker: {{ .Values.diaspora.config.configuration.server.embed_sidekiq_worker }}
+
+        sidekiq_workers: {{ .Values.diaspora.config.configuration.server.sidekiq_workers }}
+
+      chat: |
+{{- toYaml .Values.diaspora.config.configuration.chat | nindent 8 }}
+
+      map: |
+{{- toYaml .Values.diaspora.config.configuration.map | nindent 8 }}
+
+      privacy: |
+{{- toYaml .Values.diaspora.config.configuration.privacy | nindent 8 }}
+
+      settings: |
+{{- toYaml .Values.diaspora.config.configuration.settings | nindent 8 }}
+
+      services: |
+{{- toYaml .Values.diaspora.config.configuration.services | nindent 8 }}
+
+      mail: |
+{{- toYaml .Values.diaspora.config.configuration.mail | nindent 8 }}
+
+      admins: |
+{{- toYaml .Values.diaspora.config.configuration.admins | nindent 8 }}
+
+    production: |
+{{- toYaml .Values.diaspora.config.production | nindent 6 }}
+    development: |
+{{- toYaml .Values.diaspora.config.development | nindent 6 }}
 ---
 
 apiVersion: v1

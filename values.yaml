@@ -115,6 +115,8 @@ redis:
 
 diaspora:
 
+  host: "diaspora.example.com"
+
   database:
     postgresql:
       enabled: true
@@ -136,7 +138,9 @@ diaspora:
         ## However changing http to https is okay and has no consequences.
         ## If you do change the URL, you will have to start again as the URL
         ## will be hardcoded into the database.
-        url: "https://diaspora.example.com"
+        #
+        # this will be set based on diaspora.host
+        url: ""
 
         ### Set the bundle of certificate authorities (CA) certificates.
         ### This is specific to your operating system.
@@ -148,6 +152,7 @@ diaspora:
 
         ## URL for a remote Redis (default=localhost).
         ## Don't forget to restrict IP access if you uncomment these!
+        ## NOTE:this will be set automatically based on included redis dependency
         #redis: 'redis://example_host'
         #redis: 'redis://username:password@host:6379/0'
         #redis: 'unix:///tmp/redis.sock'

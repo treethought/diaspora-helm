@@ -61,10 +61,29 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-/* Taken form diaspora helm chart */
+/* Taken from gitea helm chart */
 {{- define "postgresql.host" -}}
 {{- printf "%s-postgresql.%s.svc.%s" .Release.Name .Release.Namespace .Values.clusterDomain -}}
 {{- end -}}
 {{- define "mysql.host" -}}
 {{- printf "%s-mysql.%s.svc.%s" .Release.Name .Release.Namespace .Values.clusterDomain | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "redis.url" -}}
+{{- printf "redis://%s-redis-master.%s.svc.%s:6379" .Release.Name .Release.Namespace .Values.clusterDomain  -}}
+{{- end -}}
+
+{{- define "diaspora.hostURL" -}}
+{{- if .Values.diaspora.config.configuration.require_ssl}}
+{{- printf "https://%s" required "disaspora.host value is required" .Values.diaspora.host }}
+{{- else }}
+{{- printf "http://%s" .Values.diaspora.host }}
+{{- end -}}
+{{- end -}}
+
+
+{{- define "diaspora.redisUrl" -}}
+{{- printf "redis://%s-redis-master.%s.svc.%s:6379" .Release.Name .Release.Namespace .Values.clusterDomain  -}}
+{{- end -}}
+
+
