@@ -28,20 +28,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
 
-      {{- if .Values.diaspora.database.mysql.enabled }}
-      initContainers:
-      - name: mysql-isalive
-        image: {{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
-        env:
-        - name: MYSQL_USER
-          value: {{ .Values.mysql.db.user | quote }}
-        - name: MYSQL_PASSWORD
-          value: {{ .Values.mysql.db.password | quote }}
-        command:
-          - "sh"
-          - "-c"
-          - {{ printf "until mysql --host=%s-mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute=\"SELECT 1;\"; do echo waiting for mysql; sleep 2; done;" .Release.Name }}
-      {{- else if .Values.diaspora.database.postgresql.enabled }}
+      {{- if .Values.database.postgresql.enabled }}
       initContainers:
       - name: postgresql-isready
         image: {{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
@@ -78,7 +65,7 @@ spec:
               port: http
               httpHeaders:
               - name: Host
-                value: {{ required "diaspora.host value is required " .Values.diaspora.host }}
+                value: {{ required ".Values.host value is required " .Values.host }}
 
           readinessProbe:
             httpGet:
@@ -86,7 +73,7 @@ spec:
               port: http
               httpHeaders:
               - name: Host
-                value: {{ required "diaspora.host value is required " .Values.diaspora.host }}
+                value: {{ required ".Values.host value is required " .Values.host }}
 
           startupProbe:
             httpGet:
@@ -94,7 +81,7 @@ spec:
               port: http
               httpHeaders:
               - name: Host
-                value: {{ required "diaspora.host value is required" .Values.diaspora.host }}
+                value: {{ required ".Values.host value is required" .Values.host }}
             failureThreshold: 30
             periodSeconds: 10
 

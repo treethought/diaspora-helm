@@ -65,19 +65,16 @@ Create the name of the service account to use
 {{- define "postgresql.host" -}}
 {{- printf "%s-postgresql.%s.svc.%s" .Release.Name .Release.Namespace .Values.clusterDomain -}}
 {{- end -}}
-{{- define "mysql.host" -}}
-{{- printf "%s-mysql.%s.svc.%s" .Release.Name .Release.Namespace .Values.clusterDomain | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
 
 {{- define "redis.url" -}}
 {{- printf "redis://%s-redis-master.%s.svc.%s:6379" .Release.Name .Release.Namespace .Values.clusterDomain  -}}
 {{- end -}}
 
 {{- define "diaspora.hostURL" -}}
-{{- if .Values.diaspora.config.configuration.require_ssl}}
+{{- if .Values.diaspora.configuration.require_ssl}}
 {{- printf "https://%s" required "disaspora.host value is required" .Values.diaspora.host }}
 {{- else }}
-{{- printf "http://%s" .Values.diaspora.host }}
+{{- printf "http://%s" .Values.host }}
 {{- end -}}
 {{- end -}}
 

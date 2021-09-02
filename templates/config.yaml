@@ -12,39 +12,39 @@ data:
   diaspora.yml: |
     configuration:
       environment: 
-        {{- if .Values.diaspora.config.configuration.environment.url }}
-        url: {{ .Values.diaspora.config.configuration.environment.url }}
+        {{- if .Values.diaspora.configuration.environment.url }}
+        url: {{ .Values.diaspora.configuration.environment.url }}
         {{- else }}
         url: {{ include "diaspora.hostURL" . }}
         {{ end}}
 
         certificate_authorities: '/etc/ssl/certs/ca-certificates.crt'
 
-        {{- if .Values.diaspora.config.configuration.environment.redis }}
-        redis: {{ .Values.diaspora.config.configuration.environment.redis }}
+        {{- if .Values.diaspora.configuration.environment.redis }}
+        redis: {{ .Values.diaspora.configuration.environment.redis }}
         {{- else }}
         redis: {{ include "diaspora.redisUrl" . }}
         {{ end}}
 
-        require_ssl: {{ .Values.diaspora.config.configuration.environment.require_ssl }}
+        require_ssl: {{ .Values.diaspora.configuration.environment.require_ssl }}
 
-        single_process_mode: {{ .Values.diaspora.config.configuration.environment.single_process_mode }}
+        single_process_mode: {{ .Values.diaspora.configuration.environment.single_process_mode }}
 
         ## Sidekiq - background processing
         sidekiq: |
-{{- toYaml .Values.diaspora.config.configuration.environment.sidekiq | nindent 10 }}
+{{- toYaml .Values.diaspora.configuration.environment.sidekiq | nindent 10 }}
 
         s3: |
-{{- toYaml .Values.diaspora.config.configuration.environment.s3 | nindent 10 }}
+{{- toYaml .Values.diaspora.configuration.environment.s3 | nindent 10 }}
 
         assets: |
-{{- toYaml .Values.diaspora.config.configuration.environment.assets | nindent 10 }}
+{{- toYaml .Values.diaspora.configuration.environment.assets | nindent 10 }}
 
-        #pubsub_server: {{ .Values.diaspora.config.configuration.environment.pubsub_server }}
+        #pubsub_server: {{ .Values.diaspora.configuration.environment.pubsub_server }}
 
         ## Logger configuration
         logging: |
-{{- toYaml .Values.diaspora.config.configuration.environment.logging | nindent 10 }}
+{{- toYaml .Values.diaspora.configuration.environment.logging | nindent 10 }}
 
       ## Settings affecting how ./script/server behaves.
       server: 
@@ -52,44 +52,44 @@ data:
 
         #pid: 'tmp/pids/web.pid'
 
-        rails_environment: {{ .Values.diaspora.config.configuration.server.rails_environment }}
+        rails_environment: {{ .Values.diaspora.configuration.server.rails_environment }}
 
-        stderr_log: {{ .Values.diaspora.config.configuration.server.stderr_log }}
-        stdout_log: {{ .Values.diaspora.config.configuration.server.stdout_log }}
+        stderr_log: {{ .Values.diaspora.configuration.server.stderr_log }}
+        stdout_log: {{ .Values.diaspora.configuration.server.stdout_log }}
 
-        unicorn_worker: {{ .Values.diaspora.config.configuration.server.unicorn_worker }}
+        unicorn_worker: {{ .Values.diaspora.configuration.server.unicorn_worker }}
 
-        unicorn_timeout: {{ .Values.diaspora.config.configuration.server.unicorn_timeout }}
+        unicorn_timeout: {{ .Values.diaspora.configuration.server.unicorn_timeout }}
 
-        embed_sidekiq_worker: {{ .Values.diaspora.config.configuration.server.embed_sidekiq_worker }}
+        embed_sidekiq_worker: {{ .Values.diaspora.configuration.server.embed_sidekiq_worker }}
 
-        sidekiq_workers: {{ .Values.diaspora.config.configuration.server.sidekiq_workers }}
+        sidekiq_workers: {{ .Values.diaspora.configuration.server.sidekiq_workers }}
 
       chat: |
-{{- toYaml .Values.diaspora.config.configuration.chat | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.chat | nindent 8 }}
 
       map: |
-{{- toYaml .Values.diaspora.config.configuration.map | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.map | nindent 8 }}
 
       privacy: |
-{{- toYaml .Values.diaspora.config.configuration.privacy | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.privacy | nindent 8 }}
 
       settings: |
-{{- toYaml .Values.diaspora.config.configuration.settings | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.settings | nindent 8 }}
 
       services: |
-{{- toYaml .Values.diaspora.config.configuration.services | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.services | nindent 8 }}
 
       mail: |
-{{- toYaml .Values.diaspora.config.configuration.mail | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.mail | nindent 8 }}
 
       admins: |
-{{- toYaml .Values.diaspora.config.configuration.admins | nindent 8 }}
+{{- toYaml .Values.diaspora.configuration.admins | nindent 8 }}
 
     production: |
-{{- toYaml .Values.diaspora.config.production | nindent 6 }}
+{{- toYaml .Values.diaspora.production | nindent 6 }}
     development: |
-{{- toYaml .Values.diaspora.config.development | nindent 6 }}
+{{- toYaml .Values.diaspora.development | nindent 6 }}
 ---
 
 apiVersion: v1
@@ -111,26 +111,11 @@ data:
       password: {{ .Values.postgresql.global.postgresql.postgresqlPassword | quote }}
       encoding: unicode
 
-    mysql: &mysql
-      adapter: mysql2
-      host: {{ (include "mysql.host" .) }}
-      port: {{ .Values.mysql.servicePort }}
-      username: {{ .Values.mysql.db.user | quote }}
-      password: {{ .Values.mysql.db.password | quote }}
-      #  socket: /tmp/mysql.sock
-      encoding: utf8mb4
-      collation: utf8mb4_bin
-
-
     # Comment the postgresql line and uncomment the mysql line
     # if you want to use mysql
     common: &common
-      # Choose one of the following
-      {{ if .Values.diaspora.database.postgresql.enabled }}
+      {{ if .Values.database.postgresql.enabled }}
       <<: *postgresql
-      {{ end }}
-      {{ if .Values.diaspora.database.mysql.enabled }}
-      <<: *mysql
       {{ end }}
 
       # Should match environment.sidekiq.concurrency
