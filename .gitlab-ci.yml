@@ -30,7 +30,7 @@ publish-chart:
   dependencies:
     - package
   script:
-      - export GOOGLE_APPLLICATION_CREDENTAILS=$GCP_SERVICE_ACCOUNT_KEY
+      - export GOOGLE_APPLICATION_CREDENTIALS=$GCP_SERVICE_ACCOUNT_KEY
       - gsutil cp ./index.yaml gs://$CHART_REPO_BUCKET_NAME 
       - gsutil cp $PACKAGE gs://$CHART_REPO_BUCKET_NAME
 
