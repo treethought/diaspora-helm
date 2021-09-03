@@ -1,0 +1,22 @@
+stages:
+  - lint
+  - publish
+
+
+lint-chart:
+  stage: lint
+  image: alpine/helm
+  script:
+    - helm lint
+
+publish-chart:
+  stage: publsh
+  image: google/cloud-sdk
+  script:
+      - 'curl https://storage.googleapis.com/$CHART_REPO_BUCKET_NAME/index.yaml --output ./index.yaml --fail || :'
+      - PACKAGE=$(helm package . | cut -d " " -f 8)
+      - export GOOGLE_APPLLICATION_CREDENTAILS=$GCP_SERVICE_ACCOUNT_KEY
+      - helm repo index --merge ./index.yaml .
+      - gsutil cp ./index.yaml gs://$CHART_REPO_BUCKET_NAME 
+      - gsutil cp $PACKAGE gs://$CHART_REPO_BUCKET_NAME
+
