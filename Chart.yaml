@@ -11,6 +11,7 @@ home: https://diasporafoundation.org
 icon: https://wiki.diasporafoundation.org/images/thumb/9/94/Seed-ball-logo.svg/700px-Seed-ball-logo.svg.png
 
 sources:
+  - https://github.com/diaspora/diaspora
   - https://github.com/treethought/diaspora-helm
   - https://gitlab.koehn.com/docker/diaspora
   - https://hub.docker.com/r/koehn/diaspora/

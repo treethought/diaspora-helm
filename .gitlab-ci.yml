@@ -8,12 +8,14 @@ lint-chart:
   stage: lint
   image: alpine/k8s:1.16.15
   script:
+    - helm dependency update
     - helm lint
 
 package:
   stage: package
   image: alpine/k8s:1.16.15
   script:
+    - helm dependency update
     - 'curl https://storage.googleapis.com/$CHART_REPO_BUCKET_NAME/index.yaml --output ./index.yaml --fail || :'
     - helm package .
     - helm repo index --merge ./index.yaml .
