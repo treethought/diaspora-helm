@@ -10,7 +10,7 @@ lint-chart:
     - helm lint
 
 publish-chart:
-  stage: publsh
+  stage: publish
   image: google/cloud-sdk
   script:
       - 'curl https://storage.googleapis.com/$CHART_REPO_BUCKET_NAME/index.yaml --output ./index.yaml --fail || :'
