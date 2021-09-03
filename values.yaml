@@ -51,14 +51,14 @@ ingress:
     # kubernetes.io/tls-acme: "true"
     # cert-manager.io/cluster-issuer: letsencrypt-prod
   # hosts:
-  #   - host: diaspora.example.com
+  #   - host: pod.example.com
   #     paths:
   #       - path: /
   #         pathType: ImplementationSpecific
   # tls: 
   #  - secretName: diaspora-tls
   #    hosts:
-  #      - diaspora.example.com
+  #      - pod.example.com
   labels: {}
 
 resources: {}
@@ -102,7 +102,8 @@ redis:
   password: 'changeme'
 
 # -- the hostname of your diaspora pod
-host: "diaspora.example.com"
+host: "pod.example.com"
+
 
 database:
   postgresql:
