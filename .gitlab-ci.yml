@@ -32,5 +32,5 @@ publish-chart:
   script:
       - gcloud auth activate-service-account --key-file $GCP_SERVICE_ACCOUNT_KEY
       - gsutil cp ./index.yaml gs://$CHART_REPO_BUCKET_NAME 
-      - gsutil cp $PACKAGE gs://$CHART_REPO_BUCKET_NAME
+      - gsutil cp *.tgz gs://$CHART_REPO_BUCKET_NAME
 
