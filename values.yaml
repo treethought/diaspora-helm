@@ -97,18 +97,12 @@ postgresql:
     size: 10Gi
 
 redis:
-  enabled: true
   usePassword: false
   password: 'changeme'
 
 # -- the hostname of your diaspora pod
 host: "pod.example.com"
 
-
-database:
-  postgresql:
-    # -- whether to enable the provided postresql dependency
-    enabled: true
 
 # contents of diaspora.yml config file
 diaspora:

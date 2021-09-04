@@ -8,6 +8,7 @@ Diaspora helm chart for kubernetes
 
 ## Source Code
 
+* <https://github.com/diaspora/diaspora>
 * <https://github.com/treethought/diaspora-helm>
 * <https://gitlab.koehn.com/docker/diaspora>
 * <https://hub.docker.com/r/koehn/diaspora/>
@@ -29,7 +30,6 @@ Diaspora helm chart for kubernetes
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
 | clusterDomain | string | `"cluster.local"` |  |
-| database.postgresql.enabled | bool | `true` | whether to enable the provided postresql dependency |
 | diaspora.configuration.admins.account | string | `"podmaster"` |  |
 | diaspora.configuration.admins.podmin_email | string | `"podmin@example.org"` |  |
 | diaspora.configuration.chat.enabled | bool | `false` | Enable the chat service and all its components. Please make sure that you followed the Installation-Instructions first: https://wiki.diasporafoundation.org/Integration/Chat#Installation.2FUpdate |
@@ -92,13 +92,10 @@ Diaspora helm chart for kubernetes
 | diaspora.configuration.relay.outbound.url | string | `"https://relay.iliketoast.net/receive/public"` | Change default remote relay url used for sending out here |
 | diaspora.configuration.server.embed_sidekiq_worker | bool | `false` | Embed a Sidekiq worker inside the unicorn process  Useful for minimal Heroku setups. |
 | diaspora.configuration.server.listen | string | `"0.0.0.0:3000"` | Where the appserver should listen to  @default this will be set based on service.port value |
-| diaspora.configuration.server.pid | string | `"tmp/pids/web.pid"` | Set the path for the PID file of the unicorn master process  |
-| diaspora.configuration.server.rails_environment | string | `"production"` |  |
+| diaspora.configuration.server.rails_environment | string | `"production"` | Set the path for the PID file of the unicorn master process   Rails environment  -- The environment in which the server should be started by default. Change this to 'production' if you wish to run a production environment. |
 | diaspora.configuration.server.sidekiq_workers | int | `1` | Number of Sidekiq worker processes  In most cases it is better to increase environment.sidekiq.concurrency instead! |
-| diaspora.configuration.server.stderr_log | string | `"/usr/local/app/diaspora/log/unicorn-stderr.log"` | Write unicorn stderr log. |
-| diaspora.configuration.server.stdout_log | string | `"/usr/local/app/diaspora/log/unicorn-stdout.log"` | Write unicorn stdout log. |
 | diaspora.configuration.server.unicorn_timeout | int | `90` | Number of seconds before a request is aborted  Increase if you get empty responses, or if large image uploads fail. Decrease if you're under heavy load and don't care if some requests fail. |
-| diaspora.configuration.server.unicorn_worker | int | `2` | Number of Unicorn worker processes  Increase this if you have many users. |
+| diaspora.configuration.server.unicorn_worker | int | `2` |  |
 | diaspora.configuration.services.facebook.app_id | string | `"abcdef"` |  |
 | diaspora.configuration.services.facebook.authorized | bool | `false` |  |
 | diaspora.configuration.services.facebook.enable | bool | `false` |  |
@@ -154,7 +151,7 @@ Diaspora helm chart for kubernetes
 | diaspora.development.environment | string | `nil` |  |
 | diaspora.production.environment | string | `nil` |  |
 | fullnameOverride | string | `""` |  |
-| host | string | `"diaspora.example.com"` | the hostname of your diaspora pod |
+| host | string | `"pod.example.com"` | the hostname of your diaspora pod |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"koehn/diaspora"` |  |
 | image.tag | string | `""` |  |
@@ -171,7 +168,6 @@ Diaspora helm chart for kubernetes
 | postgresql.global.postgresql.postgresqlUsername | string | `"diaspora"` |  |
 | postgresql.global.postgresql.servicePort | int | `5432` |  |
 | postgresql.persistence.size | string | `"10Gi"` |  |
-| redis.enabled | bool | `true` |  |
 | redis.password | string | `"changeme"` |  |
 | redis.usePassword | bool | `false` |  |
 | replicaCount | int | `1` |  |
