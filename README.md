@@ -1,17 +1,70 @@
 # diaspora
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.7.15.0](https://img.shields.io/badge/AppVersion-v0.7.15.0-informational?style=flat-square)
-
 Diaspora helm chart for kubernetes
 
-**Homepage:** <https://diasporafoundation.org>
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.7.15.0](https://img.shields.io/badge/AppVersion-v0.7.15.0-informational?style=flat-square)
 
-## Source Code
+## Installing the Chart
 
-* <https://github.com/diaspora/diaspora>
-* <https://github.com/treethought/diaspora-helm>
-* <https://gitlab.koehn.com/docker/diaspora>
-* <https://hub.docker.com/r/koehn/diaspora/>
+To install the chart with the release name `diaspora`:
+
+```console
+$ helm repo add spherics https://charts.spherics.space
+$ helm install diaspora spherics/diaspora
+```
+
+## Configuration
+
+The `diaspora.configuration` values expose all the available parameters for customizing your install.
+
+Aside from ingress, you can get a working installation by only setting "host".
+
+For example, if you have cert-manager and ingress-nginx controller installed the following will get you up and running.
+
+```
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: pod.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+   - secretName: pod.example.com-tls
+     hosts:
+       - pod.example.com
+
+host: "pod.example.com"
+```
+
+## Creating Admin User
+
+Note that the chart will enable registrations by default. This is needed to create the first account (you).
+
+Setting yourself as a pod admin must be done manually after first creating your account logging in.
+
+Follow the diaspora [wiki documentation](https://wiki.diasporafoundation.org/FAQ_for_pod_maintainers#What_are_roles_and_how_do_I_use_them.3F_.2F_Make_yourself_an_admin_or_assign_moderators) after shelling into the diaspora pod.
+
+exec into diaspora pod
+```
+$ kubectl exec --stdin --tty -n diaspora diaspora-6b76867dc-6lgwm -- /bin/bash
+Defaulted container "diaspora" out of: diaspora, postgresql-isready (init)
+```
+start rails console in diaspora directory
+```
+diaspora@diaspora-6b76867dc-6lgwm:~$ cd diaspora/
+diaspora@diaspora-6b76867dc-6lgwm:~/diaspora$ DB='postgres' RAILS_ENV=production bundle exec rails console
+...
+Loading production environment (Rails 5.2.5)
+2.6.0 :001 > Role.add_admin User.where(email: "me@example.com").first.person
+ => #<Role id: 1, person_id: 1, name: "admin", created_at: "2021-09-04 19:45:02", updated_at: "2021-09-04 19:45:02">
+```
+
+You may then want to diasble registrations via .Values.configuration.settings.enable_registrations
 
 ## Requirements
 
