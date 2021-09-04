@@ -64,7 +64,7 @@ Loading production environment (Rails 5.2.5)
  => #<Role id: 1, person_id: 1, name: "admin", created_at: "2021-09-04 19:45:02", updated_at: "2021-09-04 19:45:02">
 ```
 
-You may then want to diasble registrations via .Values.configuration.settings.enable_registrations
+You may then want to diasble registrations via `.Values.diaspora.configuration.settings.enable_registrations`
 
 ## Requirements
 
