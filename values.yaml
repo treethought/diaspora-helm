@@ -97,18 +97,12 @@ postgresql:
     size: 10Gi
 
 redis:
-  enabled: true
   usePassword: false
   password: 'changeme'
 
 # -- the hostname of your diaspora pod
 host: "pod.example.com"
 
-
-database:
-  postgresql:
-    # -- whether to enable the provided postresql dependency
-    enabled: true
 
 # contents of diaspora.yml config file
 diaspora:
@@ -200,7 +194,7 @@ diaspora:
       # Use Amazon S3 instead of your local filesystem
       # to handle uploaded pictures (disabled by default).
       s3: 
-      # -- Use Amazon S3 instead of your local filesystem
+        # -- Use Amazon S3 instead of your local filesystem
         enable: false
         key: 'change_me'
         secret: 'change_me'

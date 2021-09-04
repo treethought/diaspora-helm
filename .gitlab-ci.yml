@@ -1,0 +1,22 @@
+stages:
+  - lint
+  - publish
+
+
+lint-chart:
+  stage: lint
+  image: alpine/k8s:1.16.15
+  script:
+    - helm dependency update
+    - helm lint
+
+publish-chart:
+  stage: publish
+  image: alpine/k8s:1.16.15
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+      - helm repo add spherics https://charts.spherics.space
+      - helm dependency update
+      - helm push . spherics 
+

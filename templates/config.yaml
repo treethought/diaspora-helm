@@ -114,9 +114,7 @@ data:
     # Comment the postgresql line and uncomment the mysql line
     # if you want to use mysql
     common: &common
-      {{ if .Values.database.postgresql.enabled }}
       <<: *postgresql
-      {{ end }}
 
       # Should match environment.sidekiq.concurrency
       #pool: 25

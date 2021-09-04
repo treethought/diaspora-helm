@@ -27,8 +27,6 @@ spec:
       serviceAccountName: {{ include "diaspora.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-
-      {{- if .Values.database.postgresql.enabled }}
       initContainers:
       - name: postgresql-isready
         image: {{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
@@ -39,7 +37,6 @@ spec:
           - "sh"
           - "-c"
           - {{ printf "until pg_isready -h %s-postgresql -U ${POSTGRES_USER} ; do sleep 2 ; done" .Release.Name }}
-      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:

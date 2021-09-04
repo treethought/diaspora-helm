@@ -71,8 +71,8 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "diaspora.hostURL" -}}
-{{- if .Values.diaspora.configuration.require_ssl}}
-{{- printf "https://%s" required "disaspora.host value is required" .Values.diaspora.host }}
+{{- if .Values.diaspora.configuration.environment.require_ssl }}
+{{- printf "https://%s" .Values.host }}
 {{- else }}
 {{- printf "http://%s" .Values.host }}
 {{- end -}}
