@@ -16,5 +16,6 @@ publish-chart:
   image: alpine/k8s:1.16.15
   script:
       - helm repo add spherics https://charts.spherics.space
+      - helm dependency update
       - helm push . spherics 
 
