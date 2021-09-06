@@ -2,7 +2,7 @@
 
 Diaspora helm chart for kubernetes
 
-![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.7.15.0](https://img.shields.io/badge/AppVersion-v0.7.15.0-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.7.15.0](https://img.shields.io/badge/AppVersion-v0.7.15.0-informational?style=flat-square)
 
 ## Installing the Chart
 
@@ -214,6 +214,11 @@ You may then want to diasble registrations via `.Values.diaspora.configuration.s
 | ingress.labels | object | `{}` |  |
 | nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
+| persistence.accessMode | string | `"ReadWriteOnce"` |  |
+| persistence.annotations | object | `{}` |  |
+| persistence.enabled | bool | `true` |  |
+| persistence.labels | object | `{}` |  |
+| persistence.size | string | `"10Gi"` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | postgresql.global.postgresql.postgresqlDatabase | string | `"diaspora_production"` |  |
