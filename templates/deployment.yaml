@@ -56,6 +56,10 @@ spec:
               mountPath: "/home/diaspora/diaspora/config/database.yml"
               readOnly: true
               subPath: "database.yml"
+            - name: uploads
+              mountPath: "/home/diaspora/diaspora/public/uploads"
+              readOnly: false
+              subPath: "uploads"
           livenessProbe:
             httpGet:
               path: /statistics
@@ -117,3 +121,14 @@ spec:
             items:
               - key: "database.yml"
                 path: "database.yml"
+        - name: uploads
+        {{- if and .Values.persistence.enabled }}
+          persistentVolumeClaim:
+        {{- if .Values.persistence.existingClaim }}
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else }}
+            claimName: {{ template "diaspora.fullname" . }}-uploads
+        {{ end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}
