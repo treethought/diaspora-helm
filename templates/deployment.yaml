@@ -28,6 +28,16 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+      {{- if and .Values.persistence.enabled }}
+      - name: chown-uploads
+        image: busybox:latest
+        command: ["sh","-c","mkdir -p /home/diaspora/diaspora/public/uploads && chown -R 1000:1000 /home/diaspora/diaspora/public/uploads"]
+        volumeMounts:
+          - name: uploads
+            mountPath: "/home/diaspora/diaspora/public/uploads"
+            readOnly: false
+            subPath: "uploads"
+      {{- end }}
       - name: postgresql-isready
         image: {{ .Values.postgresql.image.repository }}:{{ .Values.postgresql.image.tag }}
         env:
@@ -56,6 +66,10 @@ spec:
               mountPath: "/home/diaspora/diaspora/config/database.yml"
               readOnly: true
               subPath: "database.yml"
+            - name: uploads
+              mountPath: "/home/diaspora/diaspora/public/uploads"
+              readOnly: false
+              subPath: "uploads"
           livenessProbe:
             httpGet:
               path: /statistics
@@ -117,3 +131,14 @@ spec:
             items:
               - key: "database.yml"
                 path: "database.yml"
+        - name: uploads
+        {{- if and .Values.persistence.enabled }}
+          persistentVolumeClaim:
+        {{- if .Values.persistence.existingClaim }}
+            claimName: {{ .Values.persistence.existingClaim }}
+        {{- else }}
+            claimName: {{ template "diaspora.fullname" . }}-uploads
+        {{ end }}
+        {{- else }}
+          emptyDir: {}
+        {{- end -}}

@@ -103,6 +103,14 @@ redis:
 # -- the hostname of your diaspora pod
 host: "pod.example.com"
 
+persistence:
+  enabled: true
+  # existingClaim:
+  size: 10Gi
+  accessMode: ReadWriteOnce
+  labels: {}
+  annotations: {}
+  # storageClass:
 
 # contents of diaspora.yml config file
 diaspora:
